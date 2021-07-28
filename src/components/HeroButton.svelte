@@ -81,15 +81,15 @@
     }
 
     .agi {
-        background-color: #58ff58;
+        background-color: var(--agility-color);
     }
 
     .str {
-        background-color: #ff4a4a;
+        background-color: var(--strength-color);
     }
 
     .int {
-        background-color: #64d4ff;
+        background-color: var(--intelligence-color);
     }
 
     .hero_image {

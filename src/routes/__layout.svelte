@@ -25,6 +25,12 @@
         box-sizing: border-box;
     }
 
+    :global(:root) {
+        --agility-color: #58ff58;
+        --strength-color: #ff4a4a;
+        --intelligence-color: #64d4ff;
+    }
+
     .wrapper {
         max-width: 1200px;
         margin: 0 auto;

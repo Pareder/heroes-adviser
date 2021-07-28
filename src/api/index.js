@@ -1,6 +1,9 @@
+import config from '../config';
+
+
 class API {
   constructor() {
-    this.url = 'https://api.opendota.com/api/';
+    this.url = `${config.apiUrl}/api/`;
   }
 
   getUrl(path) {
@@ -9,6 +12,11 @@ class API {
 
   async getHeroes() {
     const res = await fetch(this.getUrl('heroes'));
+    return await res.json();
+  }
+
+  async getHeroStats() {
+    const res = await fetch(this.getUrl('heroStats'));
     return await res.json();
   }
 
