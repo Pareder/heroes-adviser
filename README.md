@@ -6,6 +6,7 @@ Based on the [open Dota2 api](https://docs.opendota.com/) it calculates winrate 
 ## Used
 
 * [Svelte](https://svelte.dev/)
+* [Highcharts](https://www.highcharts.com/)
 
 ## Project Setup
 ```

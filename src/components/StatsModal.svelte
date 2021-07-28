@@ -12,6 +12,7 @@
     getArmor
   } from '../utils';
   import { heroStats } from '../stores/heroStats';
+  import WinrateChart from './WinrateChart.svelte';
 
   export let heroId;
 
@@ -102,6 +103,9 @@
                                 </div>
                             </div>
                         </div>
+                        {#if stats}
+                            <WinrateChart stats={stats}/>
+                        {/if}
                     </div>
                 {/if}
             </div>
@@ -273,6 +277,7 @@
     }
 
     .stats {
+        margin-bottom: 20px;
         display: flex;
         justify-content: space-between;
     }

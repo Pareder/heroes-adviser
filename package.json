@@ -19,5 +19,8 @@
     "eslint-plugin-svelte3": "^3.2.0",
     "svelte": "^3.34.0"
   },
-  "type": "module"
+  "type": "module",
+  "dependencies": {
+    "highcharts": "^9.1.2"
+  }
 }
