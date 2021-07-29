@@ -1,5 +1,5 @@
 <script>
-  import { onMount } from 'svelte';
+  import { getContext, onMount } from 'svelte';
   import { heroes } from '../stores/heroes';
   import { matchups } from '../stores/matchups';
   import { offeredHeroes } from '../stores/offeredHeroes'
@@ -9,6 +9,7 @@
 
   onMount(heroes.getData);
 
+  const { alert } = getContext('alert');
   let selectedHeroes = new Set();
   let search = '';
   let heroId = null;
@@ -35,6 +36,11 @@
       selectedHeroes = selectedHeroes;
       matchups.removeMatchup(heroId);
       return;
+    }
+
+    if (selectedHeroes.size === 5) {
+        alert('Maximum number of selected heroes - 5. Try to unselect some heroes.');
+        return;
     }
 
     selectedHeroes = new Set([...selectedHeroes, heroId]);

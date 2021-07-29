@@ -1,13 +1,20 @@
+<script>
+  import AlertContext from '../contexts/AlertContext.svelte';
+</script>
+
+
 <svelte:head>
     <title>Dota2 adviser</title>
     <meta name="description" content="Dota2 heroes adviser. Choose enemies and get the best counter heroes to win next game!">
     <meta name="keywords" content="Dota2, heroes, winrate, prediction">
 </svelte:head>
 
-<div class="wrapper">
-    <h1 class="logo">Heroes Adviser</h1>
-    <slot></slot>
-</div>
+<AlertContext>
+    <div class="wrapper">
+        <h1 class="logo">Heroes Adviser</h1>
+        <slot></slot>
+    </div>
+</AlertContext>
 
 <style>
     :global(head),
