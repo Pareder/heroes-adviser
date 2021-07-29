@@ -15,7 +15,7 @@
     })
     Highcharts.chart('container', {
       chart: {
-        type: 'line',
+        type: 'spline',
         backgroundColor: 'transparent',
       },
       title: {
