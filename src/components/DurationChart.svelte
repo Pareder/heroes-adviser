@@ -2,24 +2,22 @@
   import { onMount } from 'svelte';
   import Highcharts from 'highcharts';
   import Exporting from 'highcharts/modules/exporting';
+  import { heroDurations } from '../stores/heroDurations';
+  import Loader from './Loader.svelte';
 
   Exporting(Highcharts);
 
-  export let stats = {};
+  export let heroId;
 
-  const pickNumbers = Array.from({ length: 8 }).map((_, index) => index + 1);
-
-  onMount(() => {
-    const data = pickNumbers.map(number => {
-      return Number((stats[`${number}_win`] * 100 / stats[`${number}_pick`]).toFixed(2));
-    })
-    Highcharts.chart('container', {
+  onMount(async () => {
+    await heroDurations.getData(heroId);
+    Highcharts.chart('duration', {
       chart: {
-        type: 'spline',
+        type: 'column',
         backgroundColor: 'transparent',
       },
       title: {
-        text: 'Winrate depending on the pick number',
+        text: 'Durations',
         style: {
           color: '#ffffff'
         }
@@ -34,9 +32,9 @@
         enabled: false
       },
       xAxis: {
-        categories: pickNumbers,
+        categories: $heroDurations[heroId].durations,
         title: {
-          text: 'Pick number, #',
+          text: 'Duration, min',
           style: {
             color: '#ffffff'
           }
@@ -51,7 +49,7 @@
       yAxis: {
         gridLineColor: 'transparent',
         title: {
-          text: 'Winrate, %',
+          text: 'Matches played (only pro)',
           style: {
             color: '#ffffff'
           }
@@ -63,40 +61,43 @@
         },
       },
       series: [{
-        data
+        data: $heroDurations[heroId].games_played.map((value, index) => {
+          const winrate = $heroDurations[heroId].win_rate[index];
+          return {
+            y: value,
+            borderColor: 'transparent',
+            color: winrate < 49
+              ? '#ff4a4a'
+              : winrate < 51
+                ? '#ffdf50'
+                : '#58ff58'
+          };
+        })
       }],
       plotOptions: {
-        series: {
-          zones: [
-            {
-              value: 49,
-              color: '#ff4a4a',
-            },
-            {
-              value: 51,
-              color: '#ffdf50',
-            },
-            {
-              color: '#58ff58'
-            },
-          ],
-        },
+        column: {
+          minPointLength: 3
+        }
       },
       tooltip: {
         formatter: function () {
-          return `For <b>${this.x}</b> pick - <b>${this.y}%</b>`;
+          const winrate = $heroDurations[heroId].win_rate[this.point.index];
+          return `${this.x} minutes<br/>${this.y} matches<br/>${winrate}% win`;
         }
       }
     });
-  });
+  })
 </script>
 
-<div id="container" class="container"></div>
+{#if $heroDurations[heroId]}
+    <div id="duration" class="container"></div>
+{:else}
+    <Loader/>
+{/if}
 
 <style>
     .container {
         width: 100%;
         height: 300px;
-        margin-bottom: 20px;
     }
 </style>

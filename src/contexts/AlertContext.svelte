@@ -5,20 +5,26 @@
   let show = false;
   let alertText = '';
   let timeoutId;
+
   function openAlert() {
     show = true;
     timeoutId = setTimeout(() => {
-      show = false;
+      closeAlert();
     }, 5000);
   }
 
-  onDestroy(() => {
+  function closeAlert() {
+    show = false;
     clearTimeout(timeoutId);
+  }
+
+  onDestroy(() => {
+    closeAlert();
   });
 
   setContext('alert', {
     alert: (text = '') => {
-      clearTimeout(timeoutId);
+      closeAlert();
       alertText = text;
       openAlert();
     }
@@ -28,7 +34,7 @@
 <slot></slot>
 
 {#if show}
-    <div class="notification" transition:fade>
+    <div class="notification" transition:fade on:click={closeAlert}>
         {alertText}
     </div>
 {/if}

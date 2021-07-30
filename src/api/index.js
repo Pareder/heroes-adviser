@@ -24,6 +24,11 @@ class API {
     const res = await fetch(this.getUrl(`heroes/${heroId}/matchups`));
     return await res.json();
   }
+
+  async getHeroDurations(heroId) {
+    const res = await fetch(this.getUrl(`heroes/${heroId}/durations`));
+    return await res.json();
+  }
 }
 
 const api = new API();

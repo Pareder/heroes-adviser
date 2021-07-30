@@ -3,9 +3,10 @@
   import { heroes } from '../stores/heroes';
   import { matchups } from '../stores/matchups';
   import { offeredHeroes } from '../stores/offeredHeroes'
+  import Loader from '../components/Loader.svelte';
   import HeroButton from '../components/HeroButton.svelte';
   import Search from '../components/Search.svelte';
-  import StatsModal from '../components/StatsModal.svelte';
+  import StatsModal from '../components/StatsModal';
 
   onMount(heroes.getData);
 
@@ -54,6 +55,8 @@
             <HeroButton hero={$heroes[hero.id]} on:click={getHeroDetails}>
                 <div class="winrate">{hero.win_rate}%</div>
             </HeroButton>
+        {:else}
+            <Loader/>
         {/each}
     </div>
 {/if}
@@ -69,7 +72,11 @@
             on:click={selectHero}
         />
     {:else}
-        <p class="empty">No Heroes match your filter</p>
+        {#if search}
+            <p class="empty">No Heroes match your filter</p>
+        {:else}
+            <Loader/>
+        {/if}
     {/each}
 </div>
 
